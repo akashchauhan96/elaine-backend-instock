@@ -1,5 +1,9 @@
 const express = require('express');
-const fs = require('fs');
 const router = express.Router();
+const warehouseController = require('../controllers/warehouseController')
+
+router
+    .route('/')
+    .get(warehouseController.getAll);
 
 module.exports = router;
