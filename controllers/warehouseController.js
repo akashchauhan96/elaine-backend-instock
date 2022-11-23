@@ -7,12 +7,25 @@ const getAll = (_req, res) => {
         res.status(200).json(data);
      })
     .catch((err) => {
-        res.status(400).send(`Error retrieving Warehouses ${err}`);    
+        res.status(400).send(`Error retrieving warehouses ${err}`);    
     });
+}
+
+const getOne = (req, res) => {
+    knex('inventories')
+    .join('warehouses', 'warehouses.id', 'inventories.warehouse_id')
+    .where({ id: req.params.id })
+    .then((data) => {
+        res.status(200).json(data[0]);
+    })
+    .catch((err) => {
+        res.status(500).send(`Error retrieving warehouse ${err}`)
+    })
 }
 
 
 
 module.exports = {
-    getAll
+    getAll,
+    getOne
 }
