@@ -12,14 +12,13 @@ const getAll = (_req, res) => {
 }
 
 const getOne = (req, res) => {
-    knex('inventories')
-    .join('warehouses', 'warehouses.id', 'inventories.warehouse_id')
+    knex('warehouses')
     .where({ id: req.params.id })
     .then((data) => {
         res.status(200).json(data[0]);
     })
     .catch((err) => {
-        res.status(500).send(`Error retrieving warehouse ${err}`)
+        res.status(400).send(`Error retrieving warehouse ${err}`)
     })
 }
 
