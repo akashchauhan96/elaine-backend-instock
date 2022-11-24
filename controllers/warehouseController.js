@@ -29,7 +29,7 @@ const getStock = (req, res) => {
         res.status(200).json(data);
     })
     .catch((err) => {
-        res.status(400).send(`Error retrieving warehouse ${err}`)
+        res.status(400).send(`Error retrieving warehouse inventory ${err}`)
     })
 }
 
