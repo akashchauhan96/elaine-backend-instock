@@ -22,9 +22,20 @@ const getOne = (req, res) => {
     })
 }
 
+const getStock = (req, res) => {
+    knex('inventories')
+    .where({ warehouse_id: req.params.id })
+    .then((data) => {
+        res.status(200).json(data);
+    })
+    .catch((err) => {
+        res.status(400).send(`Error retrieving warehouse ${err}`)
+    })
+}
 
 
 module.exports = {
     getAll,
-    getOne
+    getOne,
+    getStock
 }

@@ -10,4 +10,8 @@ router
     .route('/:id')
     .get(warehouseController.getOne);
 
+router
+    .route('/:id/inventories')
+    .get(warehouseController.getStock);
+
 module.exports = router;
