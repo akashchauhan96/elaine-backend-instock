@@ -1,4 +1,6 @@
 const knex = require("knex")(require("../knexfile"));
+const { v4: uuidv4 } = require("uuid");
+const uuid = uuidv4();
 
 // GET all of the warehouses within the warehouses table in instock database
 const getAll = (_req, res) => {
@@ -19,6 +21,37 @@ const getOne = (req, res) => {
     })
     .catch((err) => {
       res.status(400).send(`Error retrieving warehouse ${err}`);
+    });
+};
+
+const addWarehouse = (req, res) => {
+  req.body.id = uuid;
+  if (
+    !req.body.warehouse_name ||
+    !req.body.address ||
+    !req.body.city ||
+    !req.body.country ||
+    !req.body.contact_name ||
+    !req.body.contact_position ||
+    !req.body.contact_phone ||
+    !req.body.contact_email
+  ) {
+    return res
+      .status(400)
+      .send(
+        "Please provide the required Warehouse Name, Street Address, City, Country, Contact Name, Position, Phone Number, and Email"
+      );
+  }
+  knex("warehouses")
+    .insert(req.body)
+    .then(() => {
+      const newWarehouseURL = `/warehouse/${req.body.id}`;
+      res.status(201).location(newWarehouseURL).send(req.body);
+    })
+    .catch((err) => {
+      res.status(400).json({
+        message: `Error creating new Warehouse ${err}`,
+      });
     });
 };
 
@@ -73,4 +106,5 @@ module.exports = {
   getStock,
   deleteWarehouse,
   updateWarehouse,
+  addWarehouse,
 };
