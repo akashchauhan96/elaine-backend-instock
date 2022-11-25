@@ -7,7 +7,7 @@ const getAll = (_req, res) => {
       res.status(200).json(data);
     })
     .catch((err) => {
-      res.status(400).send(`Error retrieving warehouses ${err}`);
+      res.status(400).send(`Error retrieving Warehouses ${err}`);
     });
 };
 
@@ -22,6 +22,22 @@ const getOne = (req, res) => {
     });
 };
 
+// Updating a warehouse record
+const updateWarehouse = (req, res) => {
+  knex("warehouses")
+    .update(req.body)
+    .where({ id: req.params.id })
+    .then((warehouseData) => {
+      console.log(warehouseData);
+      res
+        .status(200)
+        .send(`Warehouse with id: ${req.params.id} has been updated`);
+    })
+    .catch((err) =>
+      res.status(400).send(`Error updating Warehouse ${req.params.id} ${err}`)
+    );
+};
+
 const getStock = (req, res) => {
   knex("inventories")
     .where({ warehouse_id: req.params.id })
@@ -33,8 +49,28 @@ const getStock = (req, res) => {
     });
 };
 
+// DELETE a selected warehouse from the database, including all its inventory
+const deleteWarehouse = (req, res) => {
+  knex("warehouses")
+    .delete()
+    .where({ id: req.params.id })
+    .then(() => {
+      //we'll use the 204 response for DELETE request
+      res
+        .status(204)
+        .send(
+          `The warehouse with id: ${req.params.id} has been successfully deleted`
+        );
+    })
+    .catch((err) =>
+      res.status(400).send(`Error deleting Warehouse ${req.params.id} ${err}`)
+    );
+};
+
 module.exports = {
   getAll,
   getOne,
   getStock,
+  deleteWarehouse,
+  updateWarehouse,
 };
