@@ -4,6 +4,10 @@ const warehouseController = require("../controllers/warehouseController");
 
 router.route("/").get(warehouseController.getAll);
 
+router.route("/").post(warehouseController.addWarehouse);
+
+// router.route("/warehouse").post(warehouseController.addWarehouse);
+
 router
   .route("/:id")
   .get(warehouseController.getOne)
