@@ -7,7 +7,7 @@ const getAll = (_req, res) => {
       res.status(200).json(data);
     })
     .catch((err) => {
-      res.status(400).send(`Error retrieving Warehouses ${err}`);
+      res.status(400).send(`Error retrieving warehouses ${err}`);
     });
 };
 
