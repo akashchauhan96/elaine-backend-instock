@@ -11,23 +11,15 @@ const getAll = (_req, res) => {
     });
 };
 
-// GET a single warehouse
-const getSingle = (req, res) => {
-  knex(`warehouses`)
+const getOne = (req, res) => {
+  knex("warehouses")
     .where({ id: req.params.id })
     .then((data) => {
-      // to return a 404 error in case data wasn't found
-      if (!data.length) {
-        return res
-          .status(404)
-          .send(`Record with id: ${req.params.id} was not found`);
-      }
-      // in case the request was successful, Knex returns an array of record, and we respond with a single object
-      res.status(200).jason(data[0]);
+      res.status(200).json(data[0]);
     })
-    .catch((err) =>
-      res.status(400).semd(`Error retrieving warehouse ${req.params.id} ${err}`)
-    );
+    .catch((err) => {
+      res.status(400).send(`Error retrieving warehouse ${err}`);
+    });
 };
 
 // Updating a warehouse record
@@ -44,6 +36,17 @@ const updateWarehouse = (req, res) => {
     .catch((err) =>
       res.status(400).send(`Error updating Warehouse ${req.params.id} ${err}`)
     );
+};
+
+const getStock = (req, res) => {
+  knex("inventories")
+    .where({ warehouse_id: req.params.id })
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      res.status(400).send(`Error retrieving warehouse inventory ${err}`);
+    });
 };
 
 // DELETE a selected warehouse from the database, including all its inventory
@@ -66,7 +69,8 @@ const deleteWarehouse = (req, res) => {
 
 module.exports = {
   getAll,
+  getOne,
+  getStock,
   deleteWarehouse,
   updateWarehouse,
-  getSingle,
 };

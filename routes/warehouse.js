@@ -6,8 +6,10 @@ router.route("/").get(warehouseController.getAll);
 
 router
   .route("/:id")
-  .get(warehouseController.getSingle)
+  .get(warehouseController.getOne)
   .put(warehouseController.updateWarehouse)
   .delete(warehouseController.deleteWarehouse);
+
+router.route("/:id/inventories").get(warehouseController.getStock);
 
 module.exports = router;
