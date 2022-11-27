@@ -57,6 +57,24 @@ const addWarehouse = (req, res) => {
 
 // Updating a warehouse record
 const updateWarehouse = (req, res) => {
+  console.log(req.body);
+  // Validating PUT request for required data
+  if (
+    !req.body.warehouse_name ||
+    !req.body.address ||
+    !req.body.city ||
+    !req.body.country ||
+    !req.body.contact_name ||
+    !req.body.contact_position ||
+    !req.body.contact_phone ||
+    !req.body.contact_email
+  ) {
+    return res
+      .status(400)
+      .send(
+        "Please make sure to provide name, manager, address, phone and email fields in a request"
+      );
+  }
   knex("warehouses")
     .update(req.body)
     .where({ id: req.params.id })
