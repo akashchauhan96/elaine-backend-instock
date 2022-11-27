@@ -46,14 +46,14 @@ const addInventory = (req, res) => {
           .then(() => {
             const newInventoryURL = `/inventory/${req.body.id}`;
             res.status(201).location(newInventoryURL).send(req.body);
+          })
+          .catch((err) => {
+            res
+              .status(400)
+              .send(
+                `Warehouse_id value does not exist in the warehouses table`
+              );
           });
-      })
-      .catch((err) => {
-        res
-          .status(400)
-          .send(
-            `Warehouse_id value does not exist in the warehouses table ${err}`
-          );
       });
   }
 };
