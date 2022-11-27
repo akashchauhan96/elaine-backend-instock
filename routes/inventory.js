@@ -4,4 +4,6 @@ const inventoryController = require('../controllers/inventoryController')
 
 router.route('/').get(inventoryController.getAll);
 
+router.route('/:id').delete(inventoryController.deleteItem);
+
 module.exports = router;
