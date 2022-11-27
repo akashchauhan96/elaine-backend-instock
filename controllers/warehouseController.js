@@ -57,6 +57,7 @@ const addWarehouse = (req, res) => {
 
 // Updating a warehouse record
 const updateWarehouse = (req, res) => {
+  console.log(req.body);
   // Validating PUT request for required data
   if (
     !req.body.warehouse_name ||
