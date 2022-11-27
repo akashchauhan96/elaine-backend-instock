@@ -21,6 +21,24 @@ const getAll = (_req, res) => {
     });
 };
 
+const deleteItem = (req, res) => {
+    console.log(req.params.id);
+    knex("inventories")
+    .where({ id: req.params.id })
+    .delete()
+    .then(() => {
+      //we'll use the 204 response for DELETE request
+      res
+        .status(204)
+        .send(
+          `The inventory item with id: ${req.params.id} has been successfully deleted`
+        );
+    })
+    .catch((err) =>
+      res.status(404).send(`Error deleting Warehouse ${req.params.id} ${err}`)
+    );
+}
+
 const addInventory = (req, res) => {
   console.log(req.body.status);
   req.body.id = uuidv4();
@@ -61,4 +79,5 @@ const addInventory = (req, res) => {
 module.exports = {
   getAll,
   addInventory,
+  deleteItem
 };
