@@ -1,8 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const inventoryController = require('../controllers/inventoryController')
+const inventoryController = require("../controllers/inventoryController");
 
-router.route('/').get(inventoryController.getAll);
+router
+  .route("/")
+  .get(inventoryController.getAll)
+  .post(inventoryController.addInventory);
 
 router.route('/:id').delete(inventoryController.deleteItem);
 
