@@ -1,6 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
 const { v4: uuidv4 } = require("uuid");
-const uuid = uuidv4();
 
 const getAll = (_req, res) => {
   knex("inventories")
@@ -23,16 +22,15 @@ const getAll = (_req, res) => {
 };
 
 const addInventory = (req, res) => {
-  console.log(req.body);
-  req.body.id = uuid;
-  console.log(req.body.id);
+  console.log(req.body.status);
+  req.body.id = uuidv4();
   if (
     !req.body.warehouse_id ||
     !req.body.item_name ||
     !req.body.description ||
     !req.body.category ||
     !req.body.status ||
-    !req.body.quantity
+    (!req.body.quantity && req.body.status === "In Stock")
   ) {
     return res
       .status(400)
@@ -43,9 +41,12 @@ const addInventory = (req, res) => {
     knex("inventories")
       .where({ warehouse_id: req.body.warehouse_id })
       .then(() => {
-        knex("inventories").insert(req.body);
-        const newInventoryURL = `/inventory/${req.body.id}`;
-        res.status(201).location(newInventoryURL).send(req.body);
+        knex("inventories")
+          .insert(req.body)
+          .then(() => {
+            const newInventoryURL = `/inventory/${req.body.id}`;
+            res.status(201).location(newInventoryURL).send(req.body);
+          });
       })
       .catch((err) => {
         res
