@@ -8,7 +8,9 @@ router
     .post(inventoryController.addInventory);
 
 router
-  .route('/:id')
+  
+  .route("/:id")
+    .get(inventoryController.getOne)
     .delete(inventoryController.deleteItem)
     .put(inventoryController.editInventory);
 
