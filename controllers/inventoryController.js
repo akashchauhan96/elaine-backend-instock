@@ -53,31 +53,66 @@ const addInventory = (req, res) => {
     return res
       .status(400)
       .send(
-        "Please provide the required Warehouse ID, Item Name, Description, Category, Status, and Quantity related to the new inventory item"
+        "Please provide the required Item Name, Description, Category, Status, Quantity and Warehouse related to the new inventory item"
       );
   } else {
     knex("inventories")
+      .update(req.body)
       .where({ warehouse_id: req.body.warehouse_id })
-      .then(() => {
-        knex("inventories")
-          .insert(req.body)
-          .then(() => {
-            const newInventoryURL = `/inventory/${req.body.id}`;
-            res.status(201).location(newInventoryURL).send(req.body);
-          })
+      .then((inventoryData) => {
+        console.log(inventoryData)
+        res
+          .status(200)
+          .send(`Inventory with id: ${req.params.id} has been updated`)
+        })
           .catch((err) => {
             res
               .status(400)
               .send(
-                `Warehouse_id value does not exist in the warehouses table`
+                `Error updating Warehouse ${req.params.id} ${err}`
               );
           });
-      });
+      };
   }
-};
+
+// this is to update an inventory item
+const editInventory = (req, res) => {
+  if (
+    !req.body.warehouse_id ||
+    !req.body.item_name ||
+    !req.body.description ||
+    !req.body.category ||
+    !req.body.status ||
+    (!req.body.quantity && req.body.status === "In Stock")
+  ) {
+    return res
+      .status(400)
+      .send(
+        "Please provide the required Warehouse, Item Name, Description, Category, Status, and Quantity related to the new inventory item"
+      );
+  } else {
+    knex("inventories")
+      .update(req.body)
+      .where({ id: req.params.id })
+      .then((inventoryData) => {
+        console.log(inventoryData);
+        res
+          .status(200)
+          .send(`Inventory item with id: ${req.params.id} has been updated`);
+        }) 
+      .catch((err) => {
+            res
+              .status(400)
+              .send(
+                `Inventory_id value does not exist in the warehouses table`
+              );
+          });
+      };
+  }
 
 module.exports = {
   getAll,
   addInventory,
-  deleteItem
+  deleteItem,
+  editInventory
 };
