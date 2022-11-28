@@ -13,6 +13,7 @@ const getAll = (_req, res) => {
     });
 };
 
+// GET details for one warehouse 
 const getOne = (req, res) => {
   knex("warehouses")
     .where({ id: req.params.id })
@@ -24,6 +25,7 @@ const getOne = (req, res) => {
     });
 };
 
+// POST  new warehouse
 const addWarehouse = (req, res) => {
   req.body.id = uuid;
   if (
@@ -89,6 +91,7 @@ const updateWarehouse = (req, res) => {
     );
 };
 
+// GET inventory for a specific warehouse
 const getStock = (req, res) => {
   knex("inventories")
     .where({ warehouse_id: req.params.id })
