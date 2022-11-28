@@ -116,5 +116,5 @@ module.exports = {
   getAll,
   addInventory,
   deleteItem,
-  editInventory
+  editInventory,
 };
