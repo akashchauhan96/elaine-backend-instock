@@ -27,6 +27,7 @@ const getOne = (req, res) => {
     .select(
       "inventories.id",
       "warehouses.warehouse_name",
+      "inventories.warehouse_id",
       "inventories.item_name",
       "inventories.description",
       "inventories.category",
