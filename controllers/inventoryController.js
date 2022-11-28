@@ -23,7 +23,17 @@ const getAll = (_req, res) => {
 
 const getOne = (req, res) => {
   knex("inventories")
-    .where({ id: req.params.id })
+    .select(
+      "inventories.id",
+      "warehouses.warehouse_name",
+      "inventories.item_name",
+      "inventories.description",
+      "inventories.category",
+      "inventories.status",
+      "inventories.quantity"
+    )
+    .join("warehouses", "inventories.warehouse_id", "warehouses.id")
+    .where({ "inventories.id": req.params.id })
     .then((data) => {
       res.status(200).json(data[0]);
     })
