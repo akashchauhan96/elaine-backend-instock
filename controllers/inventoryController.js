@@ -21,9 +21,20 @@ const getAll = (_req, res) => {
     });
 };
 
+const getOne = (req, res) => {
+  knex("inventories")
+    .where({ id: req.params.id })
+    .then((data) => {
+      res.status(200).json(data[0]);
+    })
+    .catch((err) => {
+      res.status(400).send(`Error retrieving inventory ${err}`);
+    });
+};
+
 const deleteItem = (req, res) => {
-    console.log(req.params.id);
-    knex("inventories")
+  console.log(req.params.id);
+  knex("inventories")
     .where({ id: req.params.id })
     .delete()
     .then(() => {
@@ -37,7 +48,7 @@ const deleteItem = (req, res) => {
     .catch((err) =>
       res.status(404).send(`Error deleting Warehouse ${req.params.id} ${err}`)
     );
-}
+};
 
 const addInventory = (req, res) => {
   console.log(req.body.status);
@@ -79,5 +90,6 @@ const addInventory = (req, res) => {
 module.exports = {
   getAll,
   addInventory,
-  deleteItem
+  deleteItem,
+  getOne,
 };
