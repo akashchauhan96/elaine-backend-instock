@@ -15,6 +15,4 @@ app.use(express.json());
 app.use("/warehouse", warehouseRoute);
 app.use("/inventory", inventoryRoute);
 
-app.listen(PORT, () => {
-    console.log(`Running on Port ${PORT}`)
-});
+app.listen(PORT);
