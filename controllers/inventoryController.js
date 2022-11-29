@@ -45,7 +45,6 @@ const getOne = (req, res) => {
 
 // DELETE inventory item
 const deleteItem = (req, res) => {
-  console.log(req.params.id);
   knex("inventories")
     .where({ id: req.params.id })
     .delete()
@@ -64,7 +63,6 @@ const deleteItem = (req, res) => {
 
 // POST new inventory item
 const addInventory = (req, res) => {
-  console.log(req.body.status);
   req.body.id = uuidv4();
   if (
     !req.body.warehouse_id ||
@@ -120,7 +118,6 @@ const editInventory = (req, res) => {
       .update(req.body)
       .where({ id: req.params.id })
       .then((inventoryData) => {
-        console.log(inventoryData);
         res
           .status(200)
           .send(`Inventory item with id: ${req.params.id} has been updated`);
