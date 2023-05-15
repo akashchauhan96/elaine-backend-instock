@@ -83,21 +83,20 @@ const addInventory = (req, res) => {
   } else {
     knex("inventories")
       .where({ warehouse_id: req.body.warehouse_id })
+      .insert(req.body)
       .then((inventoryData) => {
-        console.log(inventoryData)
+        console.log(inventoryData);
         res
           .status(200)
-          .send(`Inventory with id: ${req.params.id} has been updated`)
-        })
-          .catch((err) => {
-            res
-              .status(400)
-              .send(
-                `Error adding inventory item ${req.params.id} ${err}`
-              );
-          });
-      };
+          .send(`Inventory with id: ${req.params.id} has been updated`);
+      })
+      .catch((err) => {
+        res
+          .status(400)
+          .send(`Error adding inventory item ${req.params.id} ${err}`);
+      });
   }
+};
 
 // this is to update an inventory item
 const editInventory = (req, res) => {
@@ -123,21 +122,19 @@ const editInventory = (req, res) => {
         res
           .status(200)
           .send(`Inventory item with id: ${req.params.id} has been updated`);
-        }) 
+      })
       .catch((err) => {
-            res
-              .status(400)
-              .send(
-                `Inventory_id value does not exist in the warehouses table`
-              );
-          });
-      };
+        res
+          .status(400)
+          .send(`Inventory_id value does not exist in the warehouses table`);
+      });
   }
+};
 
 module.exports = {
   getAll,
   addInventory,
   deleteItem,
   getOne,
-  editInventory
+  editInventory,
 };
