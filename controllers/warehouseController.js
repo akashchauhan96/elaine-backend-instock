@@ -77,8 +77,8 @@ const updateWarehouse = (req, res) => {
       );
   }
   knex("warehouses")
-    .update(req.body)
     .where({ id: req.params.id })
+    .update(req.body)
     .then((warehouseData) => {
       console.log(warehouseData);
       res
